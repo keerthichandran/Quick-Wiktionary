@@ -111,10 +111,28 @@
         content.style = "line-height: 1.4; margin-top: 0px; margin-bottom: 11px; max-height: none";
         contentContainer.appendChild(content);
 
+//own
+const flexContainer = document.createElement("div");
+    // set flex properties
+    flexContainer.style.display = "flex";
+    flexContainer.style.alignItems = "center";
+    flexContainer.style.gap = "1rem";
+    flexContainer.style.flexDirection = "row";
+
+
+    var img = document.createElement("img");
+    img.style = "float: left; text-decoration: none; width:20px; height:20px"
+    img.src = "Images/wiktionary_icon.png";
+
 
         var heading = document.createElement("h3");
-        heading.style = "margin-block-end: 0px; display:inline-block;";
+        // heading.style = "margin-block-end: 0px; display:inline-block;";
         heading.textContent = "Searching";
+
+        flexContainer.appendChild(img);
+        flexContainer.appendChild(heading);
+        document.body.appendChild(flexContainer);
+    
 
         var meaning = document.createElement("p");
         meaning.style = "margin-top: 10px";
@@ -132,7 +150,7 @@
         moreInfo.style = "float: right; text-decoration: none;"
         moreInfo.target = "_blank";
 
-        content.appendChild(heading);
+        content.appendChild(flexContainer);
         content.appendChild(audio);
         content.appendChild(meaning);
         content.appendChild(moreInfo);
@@ -157,6 +175,7 @@
             heading, 
             meaning, 
             moreInfo, 
+            img,
             audio 
         };
 
@@ -176,7 +195,9 @@
         var heightBefore = popupDiv.clientHeight;
         createdDiv.heading.textContent = content.word;
         createdDiv.meaning.textContent = content.meaning;
-        createdDiv.moreInfo.textContent = "For More Details >>";
+        createdDiv.moreInfo.textContent = "For More Details";
+        createdDiv.moreInfo.style = "font-weight: bold;padding:20px;float: right; text-decoration: none;background: white;color:black;border-radius: 50px;";
+
 
         var heightAfter = popupDiv.clientHeight;
         var difference = heightAfter - heightBefore;
