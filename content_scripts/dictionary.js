@@ -16,10 +16,10 @@
         if (!info) { return; }
         console.log(event, info)
         // retrieveMeaning(info)
-        var word = info.word
+        var word = info.word.trim()
         var classes = event.tagName;
         console.log({classes})
-        url = `https://en.wikipedia.org/api/rest_v1/page/summary/${word.trim()}`
+        url = `https://en.wikipedia.org/api/rest_v1/page/summary/${word}`
 
         let fetchRes = fetch(url, { 
             method: 'GET',
@@ -27,10 +27,11 @@
         console.log(fetchRes)
         fetchRes.then(response =>  response.status === 200 &&  response.json()) 
             .then((response) => {    
-                console.log("res", response)            
-                if (!response.extract) { console.log("no found"); return noMeaningFound(createdDiv); }
-                console.log("found word")
-                appendToDiv(createdDiv, {word: word, meaning: response.extract});
+                console.log("res", response) 
+                var respon = response.extract.split('may refer to:')[1]
+                console.log({respon})           
+                if (!response.extract || response.extract.split('may refer to:')[1] === "")  return noMeaningFound(createdDiv, word); 
+                appendToDiv(createdDiv, {word: word, meaning: response.extract, image: response.thumbnail !== undefined ? response.thumbnail.source : null});
             });
 
 
@@ -120,6 +121,11 @@
         meaning.style = "margin-top: 10px";
         meaning.textContent = "Please Wait...";
 
+
+        var image = document.createElement("img");
+        // meaning.style = "margin-top: 10px";
+        // meaning.textContent = "";
+
         var audio = document.createElement("div");
         audio.className = "audio";
         audio.innerHTML = "&nbsp;";
@@ -127,12 +133,18 @@
 
         var moreInfo = document.createElement("a");
         console.log({ LANGUAGE })
+
+        var iframe = document.createElement("iframe");
+        iframe.className = "wikitionary";
+        iframe.textContent = "please Wait..."
        
-        moreInfo.href = ` https://en.wikipedia.org/wiki/${info.word}`;
+        // moreInfo.href = ` https://en.wikipedia.org/wiki/${info.word}`;
+        moreInfo.href = ` https://en.m.wiktionary.org/wiki/${info.word}`;
         moreInfo.style = "float: right; text-decoration: none;"
         moreInfo.target = "_blank";
 
         content.appendChild(heading);
+        content.appendChild(image);
         content.appendChild(audio);
         content.appendChild(meaning);
         content.appendChild(moreInfo);
@@ -156,8 +168,10 @@
         return { 
             heading, 
             meaning, 
+            image,
             moreInfo, 
-            audio 
+            audio,
+            iframe
         };
 
     }
@@ -176,7 +190,10 @@
         var heightBefore = popupDiv.clientHeight;
         createdDiv.heading.textContent = content.word;
         createdDiv.meaning.textContent = content.meaning;
-        createdDiv.moreInfo.textContent = "For More Details >>";
+        {content.image !== null ?
+        createdDiv.image.src = content.image : ""}
+        createdDiv.moreInfo.textContent = "View More";
+        createdDiv.iframe.src = content.iframe;
 
         var heightAfter = popupDiv.clientHeight;
         var difference = heightAfter - heightBefore;
@@ -196,10 +213,11 @@
         }
     }
 
-    function noMeaningFound (createdDiv){
+    function noMeaningFound (createdDiv, word){
         console.log("came no found")
-      createdDiv.heading.textContent = "Sorry";
-      createdDiv.meaning.textContent = "No definition found.";
+      createdDiv.heading.textContent = word;
+      createdDiv.meaning.textContent = "Sorry!! No definition found.";
+      createdDiv.moreInfo.textContent = "View Wiki page"
     }
 
     function removeMeaning(event){
