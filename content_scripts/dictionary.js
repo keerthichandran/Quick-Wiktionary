@@ -121,8 +121,8 @@ const flexContainer = document.createElement("div");
 
 
     var img = document.createElement("img");
-    img.style = "float: left; text-decoration: none; width:20px; height:20px"
-    img.src = "Images/wiktionary_icon.png";
+    img.style = "float: left; text-decoration: none; width:30px; height:30px"
+    img.src = "Images/Dark.png";
 
 
         var heading = document.createElement("h3");
