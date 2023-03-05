@@ -27,12 +27,13 @@
         console.log(fetchRes)
         fetchRes.then(response =>  response.status === 200 &&  response.json()) 
             .then((response) => {    
-                console.log("res", response) 
-                var respon = response.extract.split('may refer to:')[1]
-                console.log({respon})           
-                if (!response.extract || response.extract.split('may refer to:')[1] === "" || response.extract.split('may also refer to:')[1] === "")  return noMeaningFound(createdDiv, word); 
-                appendToDiv(createdDiv, {word: word, meaning: response.extract, image: response.thumbnail !== undefined ? response.thumbnail.source : null});
-            })
+                console.log("res", response)          
+                if (!response.extract || response.extract.split('may refer to:')[1] === "" || response.extract.split('may also refer to:')[1] === "" || response.extract.split('can refer to:')[1] === "") {
+                    return noMeaningFound(createdDiv, word); 
+                    // return appendToIframe(createdDiv, word)
+                } 
+                else { appendToDiv(createdDiv, {word: word, meaning: response.extract, image: response.thumbnail !== undefined ? response.thumbnail.source : null});
+    }})
             .catch((err) => {
                 noMeaningFound(createdDiv, word)
             })
@@ -115,19 +116,30 @@
         content.style = "line-height: 1.4; margin-top: 0px; margin-bottom: 11px; max-height: none";
         contentContainer.appendChild(content);
 
+        const flexContainer = document.createElement("div");
+        flexContainer.style = "display: flex; align-items: center; gap: 1rem; flex-direction: row;"
+
+
+        var img = document.createElement("img");
+        img.style = "float: left; text-decoration: none; width:30px; height:30px"
+        img.src = "Images/Dark.png";
+
 
         var heading = document.createElement("h3");
-        heading.style = "margin-block-end: 0px; display:inline-block;";
+        // heading.style = "margin-block-end: 0px; display:inline-block;";
         heading.textContent = "Searching";
+
+        flexContainer.appendChild(img);
+        flexContainer.appendChild(heading);
+        document.body.appendChild(flexContainer);
 
         var meaning = document.createElement("p");
         meaning.style = "margin-top: 10px; max-height: 156px; overflow-y: scroll; margin-bottom: 10px";
         meaning.textContent = "Please Wait...";
 
 
-        var image = document.createElement("img");
-        // meaning.style = "margin-top: 10px";
-        // meaning.textContent = "";
+        var images = document.createElement("img");
+        images.style = "display: none"
 
         var audio = document.createElement("div");
         audio.className = "audio";
@@ -137,17 +149,15 @@
         var moreInfo = document.createElement("a");
         console.log({ LANGUAGE })
 
-        var iframe = document.createElement("iframe");
-        iframe.className = "wikitionary";
-        iframe.textContent = "please Wait..."
-       
-        // moreInfo.href = ` https://en.wikipedia.org/wiki/${info.word}`;
+        var wikiFrame = document.createElement("iframe");
+
         moreInfo.href = ` https://en.m.wiktionary.org/wiki/${info.word}`;
         moreInfo.style = "float: right; text-decoration: none;"
         moreInfo.target = "_blank";
 
-        content.appendChild(heading);
-        content.appendChild(image);
+        content.appendChild(flexContainer);
+        // content.appendChild(heading);
+        content.appendChild(images);
         content.appendChild(audio);
         content.appendChild(meaning);
         content.appendChild(moreInfo);
@@ -171,10 +181,11 @@
         return { 
             heading, 
             meaning, 
-            image,
+            images,
+            img,
             moreInfo, 
             audio,
-            iframe
+            wikiFrame
         };
 
     }
@@ -186,7 +197,7 @@
     }
 
     function appendToDiv(createdDiv, content){
-        console.log(content)
+        console.log(content,"div")
         var hostDiv = createdDiv.heading.getRootNode().host;
         var popupDiv = createdDiv.heading.getRootNode().querySelectorAll("div")[1];
 
@@ -194,11 +205,12 @@
         createdDiv.heading.textContent = content.word;
         createdDiv.meaning.textContent = content.meaning;
         {content.image !== null ?
-        createdDiv.image.src = content.image : ""}
+        createdDiv.images.src = content.image : ""}
 
-        content.image !== null ? createdDiv.image.style = "height: 120px; width: 100%; margin-top: 10px" : "";
+        content.image !== null ? createdDiv.images.style = "height: 120px; width: 100%; margin-top: 10px; object-fit: contain; display: block" : createdDiv.images.style = "display: none !important";
+        
         createdDiv.moreInfo.textContent = "View More";
-        createdDiv.iframe.src = content.iframe;
+   
 
         var heightAfter = popupDiv.clientHeight;
         var difference = heightAfter - heightBefore;
@@ -218,8 +230,34 @@
         }
     }
 
+    function appendToIframe (createdDiv, word) {
+        console.log(word)
+        var hostDiv = createdDiv.heading.getRootNode().host;
+        var popupDiv = createdDiv.heading.getRootNode().querySelectorAll("div")[1];
+
+        createdDiv.wikiFrame.src = `https://en.m.wiktionary.org/wiki/${word}`;
+        createdDiv.wikiFrame.height = "500";
+        createdDiv.wikiFrame.width = "100%";
+        createdDiv.wikiFrame.title = "quick-wiktionary";
+
+        createDiv.heading.textContent = word;
+        createdDiv.images.style= "display: none";
+        createdDiv.img.style= "display: none";
+        createdDiv.meaning.style= "display: none";
+        createdDiv.moreInfo.style= "display: none";
+        console.log(`https://en.m.wiktionary.org/wiki/${word}`)
+
+        var heightBefore = popupDiv.clientHeight;
+        var heightAfter = popupDiv.clientHeight;
+        var difference = heightAfter - heightBefore;
+
+
+        if(popupDiv.classList.contains("flipped_y")){
+            hostDiv.style.top = parseInt(hostDiv.style.top) - difference + 1 + "px";
+        }
+    }
+
     function noMeaningFound (createdDiv, word){
-        console.log("came no found")
       createdDiv.heading.textContent = word;
       createdDiv.meaning.textContent = "Sorry!! No definition found.";
       createdDiv.moreInfo.textContent = "View Wiki page"
