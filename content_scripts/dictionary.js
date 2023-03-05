@@ -122,7 +122,7 @@
 
         var img = document.createElement("img");
         img.style = "float: left; text-decoration: none; width:30px; height:30px"
-        img.src = "Images/Dark.png";
+        img.src = "../Images/Dark.png";
 
 
         var heading = document.createElement("h3");
