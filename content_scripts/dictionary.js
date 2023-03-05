@@ -126,7 +126,7 @@ const flexContainer = document.createElement("div");
 
 
         var heading = document.createElement("h3");
-        // heading.style = "margin-block-end: 0px; display:inline-block;";
+        
         heading.textContent = "Searching";
 
         flexContainer.appendChild(img);
