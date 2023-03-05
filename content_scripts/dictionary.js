@@ -127,7 +127,21 @@ function createDiv(info) {
     content.style = "line-height: 1.4; margin-top: 0px; margin-bottom: 11px; max-height: none";
     contentContainer.appendChild(content);
 
+//own
+const flexContainer = document.createElement("div");
+    // set flex properties
+    flexContainer.style.display = "flex";
+    flexContainer.style.alignItems = "center";
+    flexContainer.style.gap = "1rem";
+    flexContainer.style.flexDirection = "row";
 
+
+    var img = document.createElement("img");
+    img.style = "float: left; text-decoration: none; width:30px; height:30px"
+    img.src = "Images/Dark.png";
+
+
+<<<<<<< HEAD
     var heading = document.createElement("h3");
     heading.style = "margin-block-end: 0px; display:inline-block;";
     heading.textContent = "Searching";
@@ -135,6 +149,20 @@ function createDiv(info) {
     var meaning = document.createElement("p");
     meaning.style = "margin-top: 10px; max-height: 156px; overflow-y: scroll; margin-bottom: 10px"
     meaning.textContent = "Please Wait...";
+=======
+        var heading = document.createElement("h3");
+        
+        heading.textContent = "Searching";
+
+        flexContainer.appendChild(img);
+        flexContainer.appendChild(heading);
+        document.body.appendChild(flexContainer);
+    
+
+        var meaning = document.createElement("p");
+        meaning.style = "margin-top: 10px";
+        meaning.textContent = "Please Wait...";
+>>>>>>> 3313c062456d5d2129681cc68c54835d678f221d
 
 
     var image = document.createElement("img");
@@ -154,10 +182,19 @@ function createDiv(info) {
     iframe.className = "wikitionary";
     iframe.textContent = "please Wait..."
 
+<<<<<<< HEAD
     // moreInfo.href = ` https://en.wikipedia.org/wiki/${info.word}`;
     moreInfo.href = ` https://en.m.wiktionary.org/wiki/${info.word}`;
     moreInfo.style = "float: right; text-decoration: none;"
     moreInfo.target = "_blank";
+=======
+        content.appendChild(flexContainer);
+        content.appendChild(image);
+        content.appendChild(audio);
+        content.appendChild(meaning);
+        content.appendChild(moreInfo);
+        document.body.appendChild(hostDiv);
+>>>>>>> 3313c062456d5d2129681cc68c54835d678f221d
 
     content.appendChild(heading);
     content.appendChild(image);
@@ -176,9 +213,22 @@ function createDiv(info) {
         popupDiv.className = "mwe-popups flipped_y mwe-popups-is-not-tall";
         hostDiv.style.top = info.top - 10 - popupDiv.clientHeight + "px";
 
+<<<<<<< HEAD
         if (info.height == 0) {
             hostDiv.style.top = parseInt(hostDiv.style.top) - 8 + "px";
         }
+=======
+        return { 
+            heading, 
+            meaning, 
+            image,
+            moreInfo, 
+            img,
+            audio,
+            iframe
+        };
+
+>>>>>>> 3313c062456d5d2129681cc68c54835d678f221d
     }
 
     return {
