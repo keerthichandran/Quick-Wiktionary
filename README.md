@@ -6,7 +6,19 @@ Quick Wiktionary is a tool designed to speed up the process of searching the mea
 
 ## Features
   
-## screenshots
+* It will display the description of the meaning with respective image. 
+* Click on View more button to know more information
+* Trying to build our tool to give support all browser support
+  
+## Screenshots
   <p align="center"><img src="https://github.com/keerthichandran/Quick-Wiktionary/blob/main/Images/wiki%20-%20result.png" width="200px" height="200px" alt="result" />
     
   <p align="center"><img src="https://github.com/keerthichandran/Quick-Wiktionary/blob/main/Images/wiki-unresult.png" width="220px" height="220px" alt="result" />
+    
+  ###  Initial Stage:
+
+
+  ### Current Stage:
+    
+   
+  ### Woking / Not- Working:
