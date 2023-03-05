@@ -112,10 +112,28 @@
         content.style = "line-height: 1.4; margin-top: 0px; margin-bottom: 11px; max-height: none";
         contentContainer.appendChild(content);
 
+//own
+const flexContainer = document.createElement("div");
+    // set flex properties
+    flexContainer.style.display = "flex";
+    flexContainer.style.alignItems = "center";
+    flexContainer.style.gap = "1rem";
+    flexContainer.style.flexDirection = "row";
+
+
+    var img = document.createElement("img");
+    img.style = "float: left; text-decoration: none; width:30px; height:30px"
+    img.src = "Images/Dark.png";
+
 
         var heading = document.createElement("h3");
-        heading.style = "margin-block-end: 0px; display:inline-block;";
+        
         heading.textContent = "Searching";
+
+        flexContainer.appendChild(img);
+        flexContainer.appendChild(heading);
+        document.body.appendChild(flexContainer);
+    
 
         var meaning = document.createElement("p");
         meaning.style = "margin-top: 10px";
@@ -143,7 +161,7 @@
         moreInfo.style = "float: right; text-decoration: none;"
         moreInfo.target = "_blank";
 
-        content.appendChild(heading);
+        content.appendChild(flexContainer);
         content.appendChild(image);
         content.appendChild(audio);
         content.appendChild(meaning);
@@ -170,6 +188,7 @@
             meaning, 
             image,
             moreInfo, 
+            img,
             audio,
             iframe
         };
